@@ -1,0 +1,82 @@
+.calendar-container {
+  display: flex;
+  gap: 24px;
+}
+
+.calendar-sidebar {
+  flex: 0 0 320px;
+}
+
+.calendar-main {
+  flex: 1;
+}
+
+.time-slot {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.time-slot:last-child {
+  border-bottom: none;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.calendar-header {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.calendar-sidebar-animated {
+  animation: slideInLeft 0.8s ease-out;
+  animation-fill-mode: both;
+  animation-delay: 0.2s;
+}
+
+.calendar-main-animated {
+  animation: slideInRight 0.8s ease-out;
+  animation-fill-mode: both;
+  animation-delay: 0.4s;
+}
+
+.calendar-picker {
+  animation: fadeInUp 0.8s ease-out;
+  animation-fill-mode: both;
+  animation-delay: 0.6s;
+}
+
+.calendar-task-list {
+  animation: fadeInUp 1s ease-out;
+  animation-fill-mode: both;
+  animation-delay: 0.8s;
+}

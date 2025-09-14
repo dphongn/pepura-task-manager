@@ -1,0 +1,16 @@
+.nav-logo {
+  height: 40px;
+  margin-right: 16px;
+}
+
+.MuiTab-root {
+  min-width: 120px;
+  color: white;
+}
+
+.MuiTabs-indicator {
+  background-color: white;
+}
+
+
+
