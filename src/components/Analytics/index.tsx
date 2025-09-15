@@ -21,9 +21,9 @@ const Analytics = () => {
   const totalActualTime = tasks.reduce((sum, task) => sum + (task.actualTime || 0), 0);
   const completedTasksWithTime = tasks.filter(task => task.status === 'completed' && task.actualTime);
   
-  const averageEstimatedTime = totalTasks > 0 ? totalEstimatedTime / totalTasks : 0;
+  const averageEstimatedTime = totalTasks > 0 ? Math.round(totalEstimatedTime / totalTasks) : 0;
   const averageActualTime = completedTasksWithTime.length > 0 
-    ? completedTasksWithTime.reduce((sum, task) => sum + (task.actualTime || 0), 0) / completedTasksWithTime.length 
+    ? Math.round(completedTasksWithTime.reduce((sum, task) => sum + (task.actualTime || 0), 0) / completedTasksWithTime.length)
     : 0;
 
   const timeAccuracy = totalEstimatedTime > 0 && totalActualTime > 0 
@@ -36,8 +36,8 @@ const Analytics = () => {
   ).length;
 
   const productivityScore = totalTasks > 0 
-    ? ((completedTasks / totalTasks) * 0.6 + 
-       (overdueTasksCount === 0 ? 0.4 : (1 - overdueTasksCount / totalTasks) * 0.4)) * 100
+    ? Math.round(((completedTasks / totalTasks) * 0.6 + 
+       (overdueTasksCount === 0 ? 0.4 : (1 - overdueTasksCount / totalTasks) * 0.4)) * 100)
     : 0;
 
   // Time distribution by priority
@@ -48,8 +48,9 @@ const Analytics = () => {
   };
 
   const formatTime = (minutes: number) => {
-    const hours = Math.floor(minutes / 60);
-    const mins = minutes % 60;
+    const totalMins = Math.round(minutes); // Round to nearest minute
+    const hours = Math.floor(totalMins / 60);
+    const mins = totalMins % 60;
     return hours > 0 ? `${hours}h ${mins}m` : `${mins}m`;
   };
 
@@ -143,7 +144,7 @@ const Analytics = () => {
               <SpeedIcon sx={{ fontSize: 40, color: 'white' }} />
               <Box>
                 <Typography variant="h4" sx={{ color: 'white', fontWeight: 'bold' }}>
-                  {productivityScore.toFixed(0)}%
+                  {productivityScore}%
                 </Typography>
                 <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)' }}>
                   Productivity Score
