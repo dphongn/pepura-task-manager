@@ -73,7 +73,7 @@
    ```
 
 ## 🔗 Deployed Web URL or APK file
-🚀 **Live Demo:** [Coming Soon - Will be deployed to Vercel/Netlify]
+🚀 **Live Demo:** [https://pepura-task-manager.vercel.app/](https://pepura-task-manager.vercel.app/)
 
 📱 **Local Development:** 
 - **Development Server:** `npm run dev` → `http://localhost:5173` (hot reload, debugging)
