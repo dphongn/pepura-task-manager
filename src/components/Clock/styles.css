@@ -1,0 +1,404 @@
+/* Clock Container - No Flash Animations */
+.clock-container {
+  /* Remove all animations that could cause flashing */
+  animation: none !important;
+  /* Prevent any unintended scaling */
+  transform-origin: center center;
+  will-change: auto; /* Reduce GPU usage that can cause flashing */
+}
+
+/* Prevent any scaling on timer states */
+.clock-container * {
+  transform-origin: center center;
+}
+
+/* Stabilize the entire clock */
+.clock-container .MuiCardContent-root {
+  will-change: auto; /* Prevent unnecessary repaints */
+}
+
+/* PREVENT SCALING ON SPECIFIC ELEMENTS */
+.timer-display,
+.digital-clock,
+.MuiButton-root,
+.MuiChip-root {
+  transform: none !important; /* Force no scaling on interactive elements */
+}
+
+/* Disable all animations that might cause scaling */
+.timer-running::before {
+  transform: none !important; /* Ensure pseudo-element doesn't scale */
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Remove all glow animations that could cause flashing */
+
+/* Digital Clock - No Flash Animations */
+.digital-clock {
+  /* Remove all animations that could cause flashing */
+  animation: none !important;
+}
+
+/* Analog Clock - No Flash Animations */
+.analog-clock {
+  /* Remove all animations that could cause flashing */
+  animation: none !important;
+}
+
+@keyframes rotateIn {
+  from {
+    opacity: 0;
+    transform: rotate(-180deg); /* Removed scale */
+  }
+  to {
+    opacity: 1;
+    transform: rotate(0deg); /* Removed scale */
+  }
+}
+
+.clock-face {
+  filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.1));
+}
+
+/* Clock Hands Animations - Simplified to prevent scaling */
+.hour-hand {
+  transform-origin: 50% 100%;
+  animation: none; /* Disable animation */
+}
+
+.minute-hand {
+  transform-origin: 50% 100%;
+  animation: none; /* Disable animation */
+}
+
+/* Disable hand tick animation that caused scaling */
+
+/* Second Hand Animation - Completely Disabled */
+.second-hand {
+  transform-origin: 50% 100%;
+  animation: none; /* Disable all animations */
+}
+
+/* Timer Display - No Flash Animations */
+.timer-display {
+  /* Remove all animations that could cause flashing */
+  animation: none !important;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Timer Running Animation - Completely Disabled */
+.timer-display.running {
+  /* Completely disable all animations */
+  animation: none !important;
+}
+
+/* Pulse animation removed to prevent scaling */
+
+/* Button Hover Effects - Cohesive Design */
+.MuiButtonGroup-root {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.MuiButtonGroup-root .MuiButton-root {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: none !important;
+  text-transform: none;
+  font-weight: 600;
+}
+
+.MuiButtonGroup-root .MuiButton-root:hover {
+  filter: brightness(1.1);
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.2);
+}
+
+/* Progress Bar - No Flash Animations */
+.MuiLinearProgress-root {
+  /* Remove all animations that could cause flashing */
+  animation: none !important;
+  overflow: hidden;
+}
+
+.MuiLinearProgress-bar {
+  /* Remove all animations that could cause flashing */
+  animation: none !important;
+}
+
+/* Chip - No Flash Animations */
+.MuiChip-root {
+  /* Remove all animations that could cause flashing */
+  animation: none !important;
+  transition: box-shadow 0.3s ease;
+}
+
+.MuiChip-root:hover {
+  /* Removed transform to prevent scaling */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Clock Mode Transition - Disabled to prevent scaling */
+.clock-mode-transition {
+  animation: none; /* Disable mode switch animation */
+}
+
+/* Mode switch animation removed to prevent scaling */
+
+/* Responsive Design - No Scaling */
+@media (max-width: 768px) {
+  .clock-container {
+    margin: 0 auto;
+    max-width: 100%;
+  }
+  
+  .analog-clock {
+    /* Remove scaling that could cause zoom issues */
+    width: 80%;
+    height: 80%;
+  }
+  
+  .digital-clock h2 {
+    font-size: 2rem;
+  }
+  
+  .timer-display h1 {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .analog-clock {
+    /* Remove scaling that could cause zoom issues */
+    width: 70%;
+    height: 70%;
+  }
+  
+  .digital-clock h2 {
+    font-size: 1.5rem;
+  }
+  
+  .timer-display h1 {
+    font-size: 2rem;
+  }
+  
+  .MuiButtonGroup-root {
+    flex-direction: column;
+    width: 100%;
+    max-width: 300px;
+    align-items: center;
+    border-radius: 12px;
+  }
+  
+  .MuiButtonGroup-root .MuiButton-root {
+    width: 100%;
+    margin-bottom: 8px;
+    border-radius: 8px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .MuiButtonGroup-root .MuiButton-root:last-child {
+    margin-bottom: 0;
+  }
+}
+
+/* Dark Mode Specific Styles */
+.MuiCssBaseline-root[data-mui-color-scheme="dark"] .clock-face {
+  filter: drop-shadow(0 0 15px rgba(124, 77, 255, 0.3));
+}
+
+.MuiCssBaseline-root[data-mui-color-scheme="dark"] .digital-clock {
+  text-shadow: 0 0 20px rgba(124, 77, 255, 0.5);
+}
+
+/* Light Mode Specific Styles */
+.MuiCssBaseline-root[data-mui-color-scheme="light"] .clock-face {
+  filter: drop-shadow(0 0 10px rgba(78, 205, 196, 0.2));
+}
+
+.MuiCssBaseline-root[data-mui-color-scheme="light"] .digital-clock {
+  text-shadow: 0 0 15px rgba(78, 205, 196, 0.3);
+}
+
+/* Compact Mode Styles - No Scaling */
+.clock-container.compact {
+  /* Remove scaling that could cause zoom issues */
+  margin: 0;
+  width: 80%;
+  height: 80%;
+}
+
+.clock-container.compact .MuiCardContent-root {
+  padding: 1rem !important;
+}
+
+.clock-container.compact .digital-clock h4 {
+  font-size: 1.5rem;
+}
+
+.clock-container.compact .timer-display h3 {
+  font-size: 1.8rem;
+}
+
+/* Floating Clock Button */
+.floating-clock-button {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Timer Status Indicators - Completely Static */
+.timer-running {
+  /* Remove all animations that could cause scaling */
+  animation: none !important;
+  position: relative;
+}
+
+.timer-running::before {
+  /* Completely disable the glow effect that might cause issues */
+  display: none;
+}
+
+.timer-paused {
+  animation: none !important; /* Disable all animations */
+}
+
+@keyframes timerGlow {
+  0% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes timerBlink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* Clock Hand Smooth Movement */
+.hour-hand, .minute-hand {
+  transition: transform 0.5s ease-in-out;
+}
+
+.second-hand {
+  transition: transform 0.1s ease-out;
+}
+
+/* Enhanced Hover States - Simplified to prevent conflicts */
+.clock-container {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.clock-container:hover {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  /* Removed transform to prevent scale conflicts */
+}
+
+/* Task Progress Indicators */
+.progress-excellent {
+  background: linear-gradient(90deg, #4CAF50 0%, #8BC34A 100%);
+}
+
+.progress-good {
+  background: linear-gradient(90deg, #2196F3 0%, #03DAC6 100%);
+}
+
+.progress-warning {
+  background: linear-gradient(90deg, #FF9800 0%, #FFC107 100%);
+}
+
+.progress-danger {
+  background: linear-gradient(90deg, #F44336 0%, #E91E63 100%);
+}
+
+/* Loading Animation */
+.clock-loading {
+  animation: clockSpin 2s linear infinite;
+}
+
+@keyframes clockSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Focus States */
+.MuiButton-root:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.MuiIconButton-root:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* Countdown Clock Animations */
+@keyframes pulse {
+  0% {
+    opacity: 0.4;
+    stroke-width: 2;
+  }
+  50% {
+    opacity: 0.8;
+    stroke-width: 4;
+  }
+  100% {
+    opacity: 0.4;
+    stroke-width: 2;
+  }
+}
+
+@keyframes glow {
+  0% {
+    text-shadow: 0 0 16px rgba(var(--primary-color), 0.4);
+  }
+  100% {
+    text-shadow: 0 0 24px rgba(var(--primary-color), 0.8);
+  }
+}

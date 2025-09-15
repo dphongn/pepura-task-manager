@@ -11,10 +11,21 @@ interface TaskContextType {
   isLoading: boolean;
   error: string | null;
   
+  // Timer state
+  activeTask: Task | null;
+  timerState: 'idle' | 'running' | 'paused';
+  elapsedTime: number;
+  
   // CRUD operations
   addTask: (task: Omit<Task, 'id' | 'createdAt' | 'updatedAt'>) => void;
   updateTask: (task: Task) => void;
   deleteTask: (id: string) => void;
+  
+  // Timer operations
+  startTimer: (task: Task) => void;
+  pauseTimer: () => void;
+  stopTimer: () => void;
+  resetTimer: () => void;
   
   // Bulk operations
   deleteMultipleTasks: (ids: string[]) => void;
@@ -50,6 +61,28 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [sort, setSort] = useState<TaskSort>({ field: 'dueDate', direction: 'asc' });
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  
+  // Timer state
+  const [activeTask, setActiveTask] = useState<Task | null>(null);
+  const [timerState, setTimerState] = useState<'idle' | 'running' | 'paused'>('idle');
+  const [elapsedTime, setElapsedTime] = useState(0);
+
+  // Timer effect
+  useEffect(() => {
+    let interval: number | null = null;
+    
+    if (timerState === 'running') {
+      interval = window.setInterval(() => {
+        setElapsedTime(prev => prev + 1);
+      }, 1000);
+    }
+
+    return () => {
+      if (interval) {
+        window.clearInterval(interval);
+      }
+    };
+  }, [timerState]); // Only depend on timerState
 
   // Load tasks from localStorage on mount
   useEffect(() => {
@@ -234,6 +267,44 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
     ));
   }, []);
 
+  // Timer operations
+  const startTimer = useCallback((task: Task) => {
+    setActiveTask(task);
+    setTimerState('running');
+    // If switching tasks, save previous time
+    if (activeTask && activeTask.id !== task.id && elapsedTime > 0) {
+      const updatedPrevTask = {
+        ...activeTask,
+        actualTime: (activeTask.actualTime || 0) + Math.floor(elapsedTime / 60)
+      };
+      updateTask(updatedPrevTask);
+      setElapsedTime(0);
+    }
+  }, [activeTask, elapsedTime, updateTask]);
+
+  const pauseTimer = useCallback(() => {
+    setTimerState('paused');
+  }, []);
+
+  const stopTimer = useCallback(() => {
+    if (activeTask && elapsedTime > 0) {
+      const updatedTask = {
+        ...activeTask,
+        actualTime: (activeTask.actualTime || 0) + Math.floor(elapsedTime / 60)
+      };
+      updateTask(updatedTask);
+    }
+    setTimerState('idle');
+    setActiveTask(null);
+    setElapsedTime(0);
+  }, [activeTask, elapsedTime, updateTask]);
+
+  const resetTimer = useCallback(() => {
+    setTimerState('idle');
+    setElapsedTime(0);
+    setActiveTask(null);
+  }, []);
+
   const deleteTask = useCallback((id: string) => {
     setTasks(prev => prev.filter(task => task.id !== id));
   }, []);
@@ -286,9 +357,16 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
     sort,
     isLoading,
     error,
+    activeTask,
+    timerState,
+    elapsedTime,
     addTask,
     updateTask,
     deleteTask,
+    startTimer,
+    pauseTimer,
+    stopTimer,
+    resetTimer,
     deleteMultipleTasks,
     markTasksComplete,
     setFilter,

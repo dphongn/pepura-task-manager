@@ -31,10 +31,8 @@ interface TaskItemProps {
 }
 
 const TaskItem = ({ task, viewMode = 'list', className = '' }: TaskItemProps) => {
-  const { updateTask, deleteTask } = useTasks();
+  const { updateTask, deleteTask, startTimer, stopTimer, activeTask, timerState } = useTasks();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [isTimerRunning, setIsTimerRunning] = useState(false);
-  const [sessionTime, setSessionTime] = useState(0);
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -54,18 +52,15 @@ const TaskItem = ({ task, viewMode = 'list', className = '' }: TaskItemProps) =>
     handleMenuClose();
   };
 
-  const startTimer = () => {
-    setIsTimerRunning(true);
+  const handleStartTimer = () => {
+    startTimer(task);
   };
 
-  const stopTimer = () => {
-    setIsTimerRunning(false);
-    if (sessionTime > 0) {
-      const newActualTime = (task.actualTime || 0) + sessionTime;
-      updateTask({ ...task, actualTime: newActualTime });
-      setSessionTime(0);
-    }
+  const handleStopTimer = () => {
+    stopTimer();
   };
+
+  const isTaskActive = activeTask?.id === task.id;
 
   const formatTime = (minutes: number) => {
     const hours = Math.floor(minutes / 60);
@@ -297,32 +292,51 @@ const TaskItem = ({ task, viewMode = 'list', className = '' }: TaskItemProps) =>
                 justifyContent: isListView ? 'flex-start' : 'center',
                 flexDirection: isListView ? 'row' : 'column'
               }}>
-                <Button
-                  size="small"
-                  variant={isTimerRunning ? "outlined" : "contained"}
-                  onClick={isTimerRunning ? stopTimer : startTimer}
-                  startIcon={isTimerRunning ? <StopIcon /> : <PlayArrowIcon />}
-                  sx={{ 
-                    borderRadius: 3,
-                    fontSize: '0.7rem',
-                    px: 1.5,
-                    py: 0.5,
-                    minWidth: isListView ? 'auto' : '120px'
-                  }}
-                >
-                  {isTimerRunning ? 'Stop' : 'Start'}
-                </Button>
-                
-                {sessionTime > 0 && (
-                  <Chip 
-                    label={`+${formatTime(sessionTime)}`}
+                {!isTaskActive ? (
+                  <Button
                     size="small"
-                    color="info"
+                    variant="contained"
+                    onClick={handleStartTimer}
+                    startIcon={<PlayArrowIcon />}
+                    color="primary"
                     sx={{ 
+                      borderRadius: 3,
                       fontSize: '0.7rem',
-                      height: 20
+                      px: 1.5,
+                      py: 0.5,
+                      minWidth: isListView ? 'auto' : '120px'
                     }}
-                  />
+                  >
+                    Start
+                  </Button>
+                ) : (
+                  <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+                    <Button
+                      size="small"
+                      variant="contained"
+                      onClick={handleStopTimer}
+                      startIcon={<StopIcon />}
+                      color="error"
+                      sx={{ 
+                        borderRadius: 3,
+                        fontSize: '0.7rem',
+                        px: 1.5,
+                        py: 0.5,
+                        minWidth: isListView ? 'auto' : '100px'
+                      }}
+                    >
+                      Stop
+                    </Button>
+                    <Chip 
+                      label={timerState === 'running' ? 'Running' : 'Paused'}
+                      size="small"
+                      color={timerState === 'running' ? 'success' : 'warning'}
+                      sx={{ 
+                        fontSize: '0.7rem',
+                        height: 20
+                      }}
+                    />
+                  </Box>
                 )}
               </Box>
             )}

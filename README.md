@@ -2,6 +2,13 @@
 **Demo video link (≤ 2 minutes):**  
 📌### c. Unique Features (What's special about this app?) 
 
+**🎨 Beauty Clock Timer Integration**
+- **Circular Countdown Animation:** Stunning SVG-based countdown ring that smoothly animates as time progresses, providing visual feedback for task completion
+- **Real-Time Visual States:** Dynamic color transitions (green for running, orange for paused, red for overtime) with subtle pulse and glow effects
+- **Always-Visible Timer:** Persistent timer display in the task list that stays accessible while managing other tasks
+- **Smart Timer Context:** Deep integration with task management - starting any task automatically opens and syncs the timer with that task's estimated time
+- **Smooth State Transitions:** Professional animations for timer state changes without any jarring flashes or scaling issues
+
 **🧠 Procrastination-Aware Intelligence**
 - **Reality vs. Expectation Tracking:** The app learns your actual completion patterns vs. your initial estimates, helping you plan more realistically for future tasks
 - **Time Tracking Analytics:** Visual charts showing when you're most productive and how long different types of tasks actually take
@@ -68,7 +75,9 @@
 ## 🔗 Deployed Web URL or APK file
 🚀 **Live Demo:** [Coming Soon - Will be deployed to Vercel/Netlify]
 
-📱 **Local Development:** Run `npm run dev` and visit `http://localhost:5173`
+📱 **Local Development:** 
+- **Development Server:** `npm run dev` → `http://localhost:5173` (hot reload, debugging)
+- **Production Preview:** `npm run preview` → `http://localhost:4173` (optimized build testing)
 
 
 ## 🎥 Demo Video
@@ -105,8 +114,12 @@ The solution provides an intuitive, procrastination-aware task management system
 3. **Analytics View:** Comprehensive time tracking dashboard with productivity metrics, charts, and insights
 
 **⏰ Advanced Time Management**
+- **Beautiful Clock Timer:** Stunning circular countdown timer with real-time animations and visual progress tracking
 - **Time Estimation vs. Reality:** Track estimated vs. actual completion time for better future planning
-- **Built-in Timer:** Start/stop timer for active tasks with real-time tracking
+- **Built-in Timer:** Start/stop timer for active tasks with real-time tracking and smooth countdown animations
+- **Visual Timer States:** Color-coded timer states (green running, orange paused, red overtime) with pulse animations
+- **Desktop Notifications:** System notifications when timer reaches estimated completion time
+- **Keyboard Controls:** Quick timer control with Space (start/pause) and Ctrl+S (stop) shortcuts
 - **Deadline Awareness:** Visual indicators for approaching deadlines and overdue tasks
 - **Productivity Analytics:** Charts showing completion patterns, time usage, and productivity trends
 
@@ -117,10 +130,12 @@ The solution provides an intuitive, procrastination-aware task management system
 - **Responsive Layout:** Works seamlessly on desktop, tablet, and mobile devices
 
 **🎨 User Experience**
+- **Beauty Clock Timer:** Stunning circular countdown timer with smooth animations, real-time updates, and visual state feedback
 - **Dual Theme Support:** Light mode (pastel teal/green) and dark mode (blue/purple) with smooth transitions
-- **Smooth Animations:** Appear animations and transitions for professional feel
+- **Smooth Animations:** Appear animations and transitions for professional feel, optimized to prevent flashing or scaling issues
 - **Persistent Storage:** All data saved locally with automatic backup and restore
 - **Accessibility:** High contrast ratios, clear typography, and intuitive navigation
+- **Keyboard Shortcuts:** Quick timer control (Space for start/pause, Ctrl+S for stop) for power users
 
 ### c. Unique Features (What’s special about this app?) 
 
@@ -187,16 +202,19 @@ src/
 │   │   ├── index.tsx     # Calendar container
 │   │   ├── TaskCalendar.tsx # Calendar table logic
 │   │   └── styles.css    # Calendar styling
+│   ├── Clock/            # Beautiful timer component
+│   │   ├── index.tsx     # Circular countdown timer with animations
+│   │   └── styles.css    # Timer animations and visual states
 │   ├── Navigation/       # App navigation
 │   │   ├── index.tsx     # Navigation bar with theme toggle
 │   │   └── styles.css    # Navigation styling
 │   └── TaskList/         # Main task management
-│       ├── index.tsx     # Task list container
+│       ├── index.tsx     # Task list container with integrated timer
 │       ├── TaskForm.tsx  # Task creation/editing form
 │       ├── TaskItem.tsx  # Individual task component
 │       └── styles.css    # Task-specific styling
 ├── context/              # State management
-│   └── TaskContext.tsx   # Global task state and operations
+│   └── TaskContext.tsx   # Global task state and timer operations
 ├── types/                # TypeScript definitions
 │   └── Task.ts           # Task interface and enums
 ├── utils/                # Utility functions
@@ -218,14 +236,20 @@ localStorage['tasks'] = [
     description?: string,    // Optional description
     status: 'todo' | 'in-progress' | 'completed',
     priority: 'low' | 'medium' | 'high',
-    estimatedHours?: number, // Time estimation
-    actualHours?: number,    // Tracked time
+    estimatedTime?: number,  // Time estimation in minutes
+    actualTime?: number,     // Tracked time in minutes
     createdAt: Date,         // Creation timestamp
     dueDate?: Date,          // Optional deadline
-    isTimerRunning: boolean, // Timer state
-    timerStartTime?: Date    // Timer session start
+    updatedAt: Date          // Last modification timestamp
   }
 ]
+
+// Timer state (Context managed)
+timerState: {
+  activeTask: Task | null,           // Currently active task
+  timerState: 'idle' | 'running' | 'paused',
+  elapsedTime: number               // Elapsed seconds for current session
+}
 
 // User preferences
 localStorage['theme'] = 'light' | 'dark'
@@ -336,3 +360,9 @@ User Action → Component → TaskContext → State Update → localStorage → 
 - [x] Clean, responsive UI with dark/light theme
 - [x] TypeScript implementation for type safety
 - [x] Professional animations and smooth transitions  
+- [x] **Beauty Clock Timer:** Circular countdown timer with real-time animations
+- [x] **Timer Integration:** Deep task-timer integration with context management
+- [x] **Visual Feedback:** Color-coded timer states and smooth state transitions
+- [x] **Keyboard Controls:** Space (start/pause) and Ctrl+S (stop) shortcuts
+- [x] **Desktop Notifications:** System notifications when timer completes
+- [x] **Production Ready:** Both development and production builds tested  
